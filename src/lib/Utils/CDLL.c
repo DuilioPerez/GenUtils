@@ -1,7 +1,7 @@
-// File: Utils_CDLL.c
+// File: CDLL.c
 // Author: DP-Dev
 // Implementation of a CDLL.
-#include <Utils/Utils_CDLL.h>
+#include <Utils/CDLL.h>
 
 // Creates a CDLL struture.
 Utils_CDLL *Utils_CDLLCreate()
@@ -260,5 +260,27 @@ void Utils_CDLLClear(Utils_CDLL *list)
   while (Utils_CDLLGetSize(list) > 0)
   {
     Utils_CDLLPopFront(list);
+  }
+}
+
+// Iterate a list wth a function.
+void Utils_CDLLIterate(Utils_CDLL *list, void *extradata,
+  void (*function)(void *, void *))
+{
+  // The current node.
+  Utils_DoubleNode *currentNode = Utils_CDLLBegin(list);
+  // The index of the current element.
+  size_t i = 0;
+  // Verify the function.
+  if (function == NULL)
+  {
+    return;
+  }
+  // Calls the function.
+  while (i < Utils_CDLLGetSize(list))
+  {
+    function(currentNode->userdata, extradata);
+    i++;
+    currentNode = currentNode->nextNode;
   }
 }

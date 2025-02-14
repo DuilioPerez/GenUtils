@@ -1,9 +1,9 @@
-/// @file Utils_CDLL.h
+/// @file CDLL.h
 /// @author DP-Dev
 /// @brief Implementation of a CDLL.
 #ifndef UTILS_CDLL_H
 #define UTILS_CDLL_H
-#include <Utils/Utils_types.h>
+#include <Utils/types.h>
 #include <stdbool.h>
 #include <stdlib.h>
 
@@ -112,6 +112,14 @@ extern "C"
   /// @brief Clear the content of a list.
   /// @param list The list to clear.
   void Utils_CDLLClear(Utils_CDLL *list);
+
+  /// @brief Iterate through all the elements of a list.
+  /// @param list The list where to be iterated.
+  /// @param extradata Extradata to pass to the iterator
+  /// function.
+  /// @param function The iterator function.
+  void Utils_CDLLIterate(Utils_CDLL *list, void *extradata,
+    void (*function)(void *, void *));
 
 #ifdef __cplusplus
 }

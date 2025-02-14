@@ -1,7 +1,7 @@
-// File: Utils_CSLL.c
+// File: CSLL.c
 // Author: DP-Dev
 // Implementation of a CSLL.
-#include <Utils/Utils_CSLL.h>
+#include <Utils/CSLL.h>
 
 // Creates a CSLL struture.
 Utils_CSLL *Utils_CSLLCreate()
@@ -300,5 +300,27 @@ void Utils_CSLLClear(Utils_CSLL *list)
   while (Utils_CSLLGetSize(list) > 0)
   {
     Utils_CSLLPopFront(list);
+  }
+}
+
+// Iterate a list wth a function.
+void Utils_CSLLIterate(Utils_CSLL *list, void *extradata,
+  void (*function)(void *, void *))
+{
+  // The current node.
+  Utils_SingleNode *currentNode = Utils_CSLLBegin(list);
+  // The index of the current element.
+  size_t i = 0;
+  // Verify the function.
+  if (function == NULL)
+  {
+    return;
+  }
+  // Calls the function.
+  while (i < Utils_CSLLGetSize(list))
+  {
+    function(currentNode->userdata, extradata);
+    i++;
+    currentNode = currentNode->nextNode;
   }
 }

@@ -1,9 +1,9 @@
-/// @file Utils_CSLL.h
+/// @file CSLL.h
 /// @author DP-Dev
 /// @brief Implementation of a CSLL.
 #ifndef UTILS_CSLL_H
 #define UTILS_CSLL_H
-#include <Utils/Utils_types.h>
+#include <Utils/types.h>
 #include <stdbool.h>
 #include <stdlib.h>
 
@@ -117,6 +117,14 @@ extern "C"
   /// @brief Clear the content of a list.
   /// @param list The list to clear.
   void Utils_CSLLClear(Utils_CSLL *list);
+
+  /// @brief Iterate through all the elements of a list.
+  /// @param list The list where to be iterated.
+  /// @param extradata Extradata to pass to the iterator
+  /// function.
+  /// @param function The iterator function.
+  void Utils_CSLLIterate(Utils_CSLL *list, void *extradata,
+    void (*function)(void *, void *));
 
 #ifdef __cplusplus
 }
