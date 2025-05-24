@@ -1,13 +1,13 @@
 // File: CSLL.c
 // Author: DP-Dev
 // Implementation of a CSLL.
-#include <Utils/CSLL.h>
+#include <GenUtils/CSLL.h>
 
 // Creates a CSLL struture.
-Utils_CSLL *Utils_CSLLCreate()
+GenUtils_CSLL *GenUtils_CSLLCreate()
 {
   // Allocate memory for the new list.
-  Utils_CSLL *list = malloc(sizeof(Utils_CSLL));
+  GenUtils_CSLL *list = malloc(sizeof(GenUtils_CSLL));
   // Return if was unable to allocate memory.
   if (list == NULL)
   {
@@ -22,17 +22,17 @@ Utils_CSLL *Utils_CSLLCreate()
 }
 
 // Destroy a CSLL.
-void Utils_CSLLDestroy(Utils_CSLL *list)
+void GenUtils_CSLLDestroy(GenUtils_CSLL *list)
 {
-  Utils_CSLLClear(list);
+  GenUtils_CSLLClear(list);
   free(list);
 }
 
 // Get the size of a list.
-size_t Utils_CSLLGetSize(Utils_CSLL *list)
+size_t GenUtils_CSLLGetSize(GenUtils_CSLL *list)
 {
   // Get the size of the list.
-  if (Utils_CSLLWasInit(list))
+  if (GenUtils_CSLLWasInit(list))
   {
     return list->size;
   }
@@ -40,10 +40,10 @@ size_t Utils_CSLLGetSize(Utils_CSLL *list)
 }
 
 // Query if a list is empty.
-bool Utils_CSLLEmpty(Utils_CSLL *list)
+bool GenUtils_CSLLEmpty(GenUtils_CSLL *list)
 {
   // Check if the list is actually empty.
-  if (Utils_CSLLWasInit(list) && list->size == 0)
+  if (GenUtils_CSLLWasInit(list) && list->size == 0)
   {
     return true;
   }
@@ -51,7 +51,7 @@ bool Utils_CSLLEmpty(Utils_CSLL *list)
 }
 
 // Check if a CSLL was initialized.
-bool Utils_CSLLWasInit(Utils_CSLL *list)
+bool GenUtils_CSLLWasInit(GenUtils_CSLL *list)
 {
   // Check if the list was initialized.
   if (list != NULL)
@@ -62,10 +62,10 @@ bool Utils_CSLLWasInit(Utils_CSLL *list)
 }
 
 // Get the head of the list.
-Utils_SingleNode *Utils_CSLLBegin(Utils_CSLL *list)
+GenUtils_SingleNode *GenUtils_CSLLBegin(GenUtils_CSLL *list)
 {
   // Return the head pointer if is possible.
-  if (!Utils_CSLLWasInit(list))
+  if (!GenUtils_CSLLWasInit(list))
   {
     return NULL;
   }
@@ -73,10 +73,10 @@ Utils_SingleNode *Utils_CSLLBegin(Utils_CSLL *list)
 }
 
 // Get the tail of the list.
-Utils_SingleNode *Utils_CSLLEnd(Utils_CSLL *list)
+GenUtils_SingleNode *GenUtils_CSLLEnd(GenUtils_CSLL *list)
 {
   // Return the tail node if possible.
-  if (!Utils_CSLLWasInit(list))
+  if (!GenUtils_CSLLWasInit(list))
   {
     return NULL;
   }
@@ -84,17 +84,17 @@ Utils_SingleNode *Utils_CSLLEnd(Utils_CSLL *list)
 }
 
 // Insert data in a node.
-bool Utils_CSLLInsert(
-  Utils_CSLL *list, Utils_SingleNode *node, void *userdata)
+bool GenUtils_CSLLInsert(GenUtils_CSLL *list,
+  GenUtils_SingleNode *node, void *userdata)
 {
   // Create a temporal node.
-  Utils_SingleNode *tempNode = NULL;
+  GenUtils_SingleNode *tempNode = NULL;
   // Check the list and the node.
-  if (!Utils_CSLLWasInit(list))
+  if (!GenUtils_CSLLWasInit(list))
   {
     return false;
   }
-  else if (Utils_CSLLGetSize(list) > 0 &&
+  else if (GenUtils_CSLLGetSize(list) > 0 &&
            (node == NULL || node->nextNode == NULL))
   {
     return false;
@@ -102,7 +102,7 @@ bool Utils_CSLLInsert(
   // If the list is new, just append.
   if (list->size == 0)
   {
-    tempNode = malloc(sizeof(Utils_SingleNode));
+    tempNode = malloc(sizeof(GenUtils_SingleNode));
     if (tempNode == NULL)
     {
       return false;
@@ -116,7 +116,7 @@ bool Utils_CSLLInsert(
   // Do additional logic in other case.
   else
   {
-    tempNode = malloc(sizeof(Utils_SingleNode));
+    tempNode = malloc(sizeof(GenUtils_SingleNode));
     if (tempNode == NULL)
     {
       return false;
@@ -126,7 +126,7 @@ bool Utils_CSLLInsert(
     node->nextNode = tempNode;
     node->userdata = userdata;
     list->size++;
-    if (node == Utils_CSLLEnd(list))
+    if (node == GenUtils_CSLLEnd(list))
     {
       list->tail = tempNode;
     }
@@ -136,24 +136,24 @@ bool Utils_CSLLInsert(
 
 // The same insertion algorithm with some minor
 // modifications.
-bool Utils_CSLLInsertAfter(
-  Utils_CSLL *list, Utils_SingleNode *node, void *userdata)
+bool GenUtils_CSLLInsertAfter(GenUtils_CSLL *list,
+  GenUtils_SingleNode *node, void *userdata)
 {
   // Create a temporal node.
-  Utils_SingleNode *tempNode = NULL;
+  GenUtils_SingleNode *tempNode = NULL;
   // Check the list and the node.
-  if (!Utils_CSLLWasInit(list))
+  if (!GenUtils_CSLLWasInit(list))
   {
     return false;
   }
-  else if (Utils_CSLLGetSize(list) > 0 && node == NULL)
+  else if (GenUtils_CSLLGetSize(list) > 0 && node == NULL)
   {
     return false;
   }
   // If the list is new, just append.
   if (list->size == 0)
   {
-    tempNode = malloc(sizeof(Utils_SingleNode));
+    tempNode = malloc(sizeof(GenUtils_SingleNode));
     if (tempNode == NULL)
     {
       return false;
@@ -167,7 +167,7 @@ bool Utils_CSLLInsertAfter(
   // Do additional logic in other case.
   else
   {
-    tempNode = malloc(sizeof(Utils_SingleNode));
+    tempNode = malloc(sizeof(GenUtils_SingleNode));
     if (tempNode == NULL)
     {
       return false;
@@ -176,7 +176,7 @@ bool Utils_CSLLInsertAfter(
     tempNode->nextNode = node->nextNode;
     node->nextNode = tempNode;
     list->size++;
-    if (node == Utils_CSLLEnd(list))
+    if (node == GenUtils_CSLLEnd(list))
     {
       list->tail = tempNode;
     }
@@ -185,13 +185,13 @@ bool Utils_CSLLInsertAfter(
 }
 
 // Remove a node.
-bool Utils_CSLLRemove(
-  Utils_CSLL *list, Utils_SingleNode *node)
+bool GenUtils_CSLLRemove(
+  GenUtils_CSLL *list, GenUtils_SingleNode *node)
 {
   // The sentinel node.
-  Utils_SingleNode *currentNode = NULL;
+  GenUtils_SingleNode *currentNode = NULL;
   // Check the list and the node.
-  if (!Utils_CSLLWasInit(list) || node == NULL ||
+  if (!GenUtils_CSLLWasInit(list) || node == NULL ||
       node->nextNode == NULL)
   {
     return false;
@@ -207,7 +207,7 @@ bool Utils_CSLLRemove(
   // Do additional logic in other case.
   else
   {
-    currentNode = Utils_CSLLEnd(list);
+    currentNode = GenUtils_CSLLEnd(list);
     while (currentNode->nextNode != node)
     {
       currentNode = currentNode->nextNode;
@@ -228,13 +228,13 @@ bool Utils_CSLLRemove(
 }
 
 // Remove the node next to one.
-bool Utils_CSLLRemoveAfter(
-  Utils_CSLL *list, Utils_SingleNode *node)
+bool GenUtils_CSLLRemoveAfter(
+  GenUtils_CSLL *list, GenUtils_SingleNode *node)
 {
   // The sentinel node.
-  Utils_SingleNode *currentNode = NULL;
+  GenUtils_SingleNode *currentNode = NULL;
   // Check the list and the node.
-  if (!Utils_CSLLWasInit(list) || node == NULL ||
+  if (!GenUtils_CSLLWasInit(list) || node == NULL ||
       node->nextNode == NULL)
   {
     return false;
@@ -269,46 +269,72 @@ bool Utils_CSLLRemoveAfter(
 }
 
 // Add data at the tail of the list.
-bool Utils_CSLLPushBack(Utils_CSLL *list, void *userdata)
+bool GenUtils_CSLLPushBack(
+  GenUtils_CSLL *list, void *userdata)
 {
-  return Utils_CSLLInsertAfter(
-    list, Utils_CSLLEnd(list), userdata);
-}
-
-// Remove data from the tail of the list.
-bool Utils_CSLLPopBack(Utils_CSLL *list)
-{
-  return Utils_CSLLRemove(list, Utils_CSLLEnd(list));
+  return GenUtils_CSLLInsertAfter(
+    list, GenUtils_CSLLEnd(list), userdata);
 }
 
 // Insert data at the head of the list.
-bool Utils_CSLLPushFront(Utils_CSLL *list, void *userdata)
+bool GenUtils_CSLLPushFront(
+  GenUtils_CSLL *list, void *userdata)
 {
-  return Utils_CSLLInsert(
-    list, Utils_CSLLBegin(list), userdata);
+  return GenUtils_CSLLInsert(
+    list, GenUtils_CSLLBegin(list), userdata);
+}
+
+// Remove and return data from the tail of the list.
+void *GenUtils_CSLLPopBack(GenUtils_CSLL *list)
+{
+  // Get the last node.
+  GenUtils_SingleNode *node = GenUtils_CSLLEnd(list);
+  // Data of the node.
+  void *data = (node == NULL ? NULL : node->userdata);
+  GenUtils_CSLLRemove(list, node);
+  return data;
+}
+
+// Remove data from the tail of the list.
+bool GenUtils_CSLLPopBackBool(GenUtils_CSLL *list)
+{
+  return GenUtils_CSLLRemove(list, GenUtils_CSLLEnd(list));
+}
+
+// Remove and return data from the head of the list.
+void *GenUtils_CSLLPopFront(GenUtils_CSLL *list)
+{
+  // Get the first node.
+  GenUtils_SingleNode *node = GenUtils_CSLLBegin(list);
+  // Data of the node.
+  void *data = (node == NULL ? NULL : node->userdata);
+  GenUtils_CSLLRemove(list, node);
+  return data;
 }
 
 // Remove data from the beginning of the list.
-bool Utils_CSLLPopFront(Utils_CSLL *list)
+bool GenUtils_CSLLPopFrontBool(GenUtils_CSLL *list)
 {
-  return Utils_CSLLRemove(list, Utils_CSLLBegin(list));
+  return GenUtils_CSLLRemove(
+    list, GenUtils_CSLLBegin(list));
 }
 
 // Remove all the elements of a list.
-void Utils_CSLLClear(Utils_CSLL *list)
+void GenUtils_CSLLClear(GenUtils_CSLL *list)
 {
-  while (Utils_CSLLGetSize(list) > 0)
+  while (GenUtils_CSLLGetSize(list) > 0)
   {
-    Utils_CSLLPopFront(list);
+    GenUtils_CSLLPopFront(list);
   }
 }
 
 // Iterate a list wth a function.
-void Utils_CSLLIterate(Utils_CSLL *list, void *extradata,
-  void (*function)(void *, void *))
+void GenUtils_CSLLIterate(GenUtils_CSLL *list,
+  void *extradata, void (*function)(void *, void *))
 {
   // The current node.
-  Utils_SingleNode *currentNode = Utils_CSLLBegin(list);
+  GenUtils_SingleNode *currentNode =
+    GenUtils_CSLLBegin(list);
   // The index of the current element.
   size_t i = 0;
   // Verify the function.
@@ -317,7 +343,7 @@ void Utils_CSLLIterate(Utils_CSLL *list, void *extradata,
     return;
   }
   // Calls the function.
-  while (i < Utils_CSLLGetSize(list))
+  while (i < GenUtils_CSLLGetSize(list))
   {
     function(currentNode->userdata, extradata);
     i++;

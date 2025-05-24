@@ -5,6 +5,6 @@ link_directories("${CMAKE_CURRENT_BINARY_DIR}/lib")
 # Add the library.
 add_subdirectory(lib)
 # Build the test programs.
-if(BUILD_TESTS)
+if(GENUTILS_BUILD_TESTS)
   add_subdirectory(tests)
 endif()
